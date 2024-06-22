@@ -13,7 +13,7 @@ resources:
  pipelines:
      - pipeline: 'buildPipeline'
        project: 'AzureTestProject'
-       source: 'Build pipeline'
+       source: 'hcobpo.AzureTestProject-CI'
        branch: 'main'
 
 stages:
@@ -25,7 +25,7 @@ stages:
     jobs:
     - deployment: DeployWebsite
       displayName: 'Deploy website'
-      environment: 'Windows 11 server.DEKSTOP-HCO'
+      environment: 'Windows 11 server.DESKTOP-HCO'
       strategy:
        runOnce:
            deploy:
@@ -41,10 +41,10 @@ stages:
                   name: 'StopIIS'
                   displayName: 'Stop IIS website'
                   inputs:
+                    EnableIIS: true
                     IISDeploymentType: 'IISWebsite'
                     ActionIISWebsite: 'StopWebsite'
                     StartStopWebsiteName: '${{ variables.IISWebsiteName }}'
-
                 - script: echo $(Pipeline.Workspace)\buildPipeline\AzureTestProject\RoundTheCode.AzureTestProject
 
                 - task: IISWebAppDeploymentOnMachineGroup@0
